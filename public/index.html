@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Educativo - Elaboración del Problema</title>
+    <link rel="stylesheet" href="../src/css/main.css">
+</head>
+
+<body>
+    <!-- Cabecera -->
+    <header id="header">
+        <div class="logo left">
+            <img src="../public/assets/img/escudoUNAM.png" alt="Escudo de la UNAM">
+        </div>
+        <h1 class="title">Proyecto Educativo</h1>
+        <div class="logo right">
+            <img src="../public/assets/img/escudoFI.png" alt="escudo de la FI">
+        </div>
+    </header>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Menú lateral -->
+        <aside id="sidebar">
+            <ul id="main-menu">
+                <li class="menu-item">
+                    <button class="menu-toggle">1. Elaboración del problema</button>
+                    <ul class="submenu">
+                        <li><a href="#1.1">1.1 Identificación de la necesidad</a></li>
+                        <li><a href="#1.2">1.2 Definir el problema</a></li>
+                        <li><a href="#1.3">1.3 Búsqueda de información</a></li>
+                        <li><a href="#1.4">1.4 Especificaciones y requerimientos</a></li>
+                        <li><a href="#1.5">1.5 Plan de trabajo</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main id="content">
+            <section id="1.1">
+                <h2>1.1 Identificación de la necesidad</h2>
+                <form id="needsForm">
+                    <div class="form-group">
+                        <label for="situation">1. Identifica la situación que genera malestar, dificultad o
+                            insatisfacción en el contexto analizado:</label>
+                        <textarea id="situation" name="situation" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="context">2. Reconoce y describe el contexto en el que ocurre la necesidad
+                            identificada:</label>
+                        <textarea id="context" name="context" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="affected">3. Identifica a las personas, grupos o sectores que se ven afectados por
+                            esta situación:</label>
+                        <textarea id="affected" name="affected" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="consequences">4. Reconoce y describe las consecuencias o efectos que podrían surgir
+                            al no resolver esta necesidad:</label>
+                        <textarea id="consequences" name="consequences" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="solutions">5. Identifica, lista y describe los intentos o soluciones actuales;
+                            explica por qué no logran satisfacer completamente la necesidad:</label>
+                        <textarea id="solutions" name="solutions" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resources">6. Identifica y explica los recursos, limitaciones o condiciones que
+                            influyen en la aparición o mantenimiento de esta situación:</label>
+                        <textarea id="resources" name="resources" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="summary">7. Sintetiza y redacta un párrafo que resuma claramente la necesidad
+                            identificada:</label>
+                        <textarea id="summary" name="summary" required></textarea>
+                    </div>
+
+                    <button type="submit">Guardar</button>
+                </form>
+
+                <pre id="output"></pre>
+            </section>
+
+            <section id="1.2">
+                <h2>1.2 Definir el problema</h2>
+                <p>Aquí irá el contenido de la sección.</p>
+            </section>
+            <section id="1.3">
+                <h2>1.3 Búsqueda de información</h2>
+                <p>Aquí irá el contenido de la sección.</p>
+            </section>
+            <section id="1.4">
+                <h2>1.4 Especificaciones y requerimientos</h2>
+                <p>Aquí irá el contenido de la sección.</p>
+            </section>
+            <section id="1.5">
+                <h2>1.5 Plan de trabajo</h2>
+                <p>Aquí irá el contenido de la sección.</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../src/controller/appController.js"></script>
+</body>
+
+</html>
