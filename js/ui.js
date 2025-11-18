@@ -37,7 +37,7 @@
       const grupo = document.getElementById("numGrupo").value.trim();
       const equipo = document.getElementById("numEquipo").value.trim();
       const semestre = document.getElementById("semestre").value;
-      const integrantes = document.getElementById("integrantesText").value.split("\n").map(s => s.trim()).filter(Boolean).slice(0,7);
+      const integrantes = document.getElementById("integrantesText").value.split("\n").map(s => s.trim()).filter(Boolean).slice(0, 7);
 
       if (!grupo || !equipo) return alert("Grupo y equipo son obligatorios.");
       if (integrantes.length === 0) return alert("Agrega al menos 1 integrante.");
@@ -67,35 +67,43 @@
   function mostrarIdentificarNecesidad() {
     const html = `
       <h2>Identificación de la Necesidad</h2>
-      <form id="formIdentificarNecesidad">
-        <h3>Apoyos</h3>
-        <label>1. Situación (1 párrafo)</label>
-        <textarea id="sitSituacion" rows="4" required></textarea>
+      <form id="formIdentificarNecesidad" class="form-necesidad">
+        
+        <section class="form-section">
+          <h3>Apoyo</h3>
 
-        <label>2. Contexto (1 párrafo)</label>
-        <textarea id="sitContexto" rows="4" required></textarea>
+          <label>1. Situación</label>
+          <textarea id="sitSituacion" rows="4" placeholder="Identifica la situación que genera malestar, dificultad o insatisfacción en el contexto analizado." required></textarea>
 
-        <label>3. Personas afectadas (1 párrafo)</label>
-        <textarea id="sitAfectados" rows="4" required></textarea>
+          <label>2. Contexto</label>
+          <textarea id="sitContexto" rows="4" placeholder="Reconoce y describe el contexto en el que ocurre la necesidad identificada." required></textarea>
 
-        <label>4. Consecuencias (1 párrafo)</label>
-        <textarea id="sitConsecuencias" rows="4" required></textarea>
+          <label>3. Personas afectadas</label>
+          <textarea id="sitAfectados" rows="4" placeholder="Identifica a las personas, grupos o sectores que se ven afectados por esta situación." required></textarea>
 
-        <label>5. Intentos o soluciones actuales (media cuartilla)</label>
-        <textarea id="sitIntentos" rows="6" required></textarea>
+          <label>4. Consecuencias</label>
+          <textarea id="sitConsecuencias" rows="4" placeholder="Reconoce y describe las consecuencias o efectos que podrían surgir al no resolver esta necesidad." required></textarea>
 
-        <label>6. Recursos o limitaciones (1 párrafo)</label>
-        <textarea id="sitRecursos" rows="4" required></textarea>
+          <label>5. Intentos o soluciones actuales</label>
+          <textarea id="sitIntentos" rows="6" placeholder="Identifica, lista y describe los intentos o soluciones actuales implementados; explica por qué no satisfacen completamente la necesidad." required></textarea>
 
-        <h3>Entregable</h3>
-        <label>7. Síntesis final (1 párrafo)</label>
-        <textarea id="sitSintesis" rows="5" required></textarea>
+          <label>6. Recursos o limitaciones</label>
+          <textarea id="sitRecursos" rows="4" placeholder="Identifica y explica los recursos, limitaciones o condiciones que influyen en la aparición o mantenimiento de esta situación." required></textarea>
+        </section>
 
-        <div style="margin-top:12px">
+        <section class="form-section">
+          <h3>Entregable</h3>
+
+          <label>7. Síntesis final</label>
+          <textarea id="sitSintesis" rows="5" placeholder="Sintetiza y redacta un párrafo que resuma claramente la necesidad identificada, considerando los puntos anteriores." required></textarea>
+        </section>
+
+        <div class="form-actions">
           <button type="submit">Guardar</button>
         </div>
       </form>
     `;
+
     document.getElementById("content-area").innerHTML = html;
 
     const form = document.getElementById("formIdentificarNecesidad");
