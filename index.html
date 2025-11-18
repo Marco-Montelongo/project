@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ingeniería de Diseño</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="main-header">
+        <img src="img/escudoUNAM.png" alt="Logo Izquierdo" class="header-logo">
+        <h1 class="header-title">Metodología de Diseño Genérica</h1>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <img src="img/escudoFI.png" alt="Logo Derecho" class="header-logo">
+    </header>
+
+    <div class="container">
+        <nav class="sidebar" id="sidebarMenu"></nav>
+
+        <main class="content" id="content-area">
+            <h2>Bienvenido 👋</h2>
+            <p>Selecciona una opción del menú para comenzar.</p>
+        </main>
+    </div>
+
+    <footer class="main-footer">
+        <button class="download-btn" onclick="descargarProyecto()">💾 Descargar JSON</button>
+        <!--<button class="pin-btn" onclick="pedirPinSiNoHay()">🔐 Ingresar PIN</button>-->
+        <button class="download-btn" onclick="generarPDF()">Generar reporte</button>
+    </footer>
+
+    <script src="js/apiDrive.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/sidebarMenu.js"></script>
+
+</body>
+
+</html>
