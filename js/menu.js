@@ -113,7 +113,7 @@ function handleFormLoad(functionName, contentId, errorName) {
   }
 }
 
-renderMenu();
+//renderMenu();
 document.addEventListener("DOMContentLoaded", () => {
   renderMenu();
 
