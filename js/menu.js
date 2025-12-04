@@ -114,5 +114,17 @@ function handleFormLoad(functionName, contentId, errorName) {
 }
 
 renderMenu();
-loadForm("home");
+document.addEventListener("DOMContentLoaded", () => {
+  renderMenu();
+
+  // Cargar la página principal al iniciar
+  loadForm("home");
+
+  // Mostrar la sección "Inicio" abierta
+  const inicioSection = document.querySelector('.sidebar-section:first-child .sidebar-subitems');
+  if (inicioSection) {
+    inicioSection.style.display = "block";
+  }
+});
+
 
