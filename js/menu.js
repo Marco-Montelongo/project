@@ -114,5 +114,5 @@ function handleFormLoad(functionName, contentId, errorName) {
 }
 
 renderMenu();
-loadForm("home"); // Cargar la página principal al inicio
+loadForm("home");
 
