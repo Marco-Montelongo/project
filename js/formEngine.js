@@ -4,6 +4,50 @@
    Simplifica estructuras repetidas y estandariza PDF/almacenamiento.
    ============================================================ */
 
+// ============================================================
+// ENCABEZADO UNIVERSAL PARA TODOS LOS PDF (resiliente)
+// ============================================================
+async function buildPDFHeader(pdf, formTitle) {
+    const pageWidth = pdf.internal.pageSize.getWidth();
+
+    async function loadImgAsBase64(url) {
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const blob = await res.blob();
+            return await new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(blob);
+            });
+        } catch (err) {
+            console.warn("No se pudo cargar imagen:", url, err);
+            return null;
+        }
+    }
+
+    const logoUNAM = await loadImgAsBase64("img/escudoUNAM.png");
+    const logoFI   = await loadImgAsBase64("img/escudoFI.png");
+
+    if (logoUNAM) pdf.addImage(logoUNAM, "PNG", 60, 30, 80, 80);
+    if (logoFI)   pdf.addImage(logoFI, "PNG", pageWidth - 140, 30, 80, 80);
+
+    let y = 130;
+
+    pdf.setFont("Times", "bold");
+    pdf.setFontSize(18);
+    pdf.text("Ingeniería de Diseño", pageWidth / 2, y, { align: "center" });
+
+    y += 26;
+
+    pdf.setFont("Times", "italic");
+    pdf.setFontSize(14);
+    pdf.text(formTitle || "", pageWidth / 2, y, { align: "center" });
+
+    return y + 40;
+}
+
+
 (function () {
 
     // ============================================================
@@ -247,6 +291,14 @@
             data.integrantes = [...window.PROYECTO.formularios[id].integrantes];
         }
 
+        // *** NUEVO: preservar imágenes personalizadas ***
+        const formData = window.PROYECTO.formularios[id];
+
+        if (formData?.diagrama) data.diagrama = formData.diagrama;   // formulario 2.1
+        if (formData?.ganttImg) data.ganttImg = formData.ganttImg;   // formulario 1.5
+
+
+
         window.PROYECTO.formularios[id] = data;
         return data;
     }
@@ -293,12 +345,14 @@
     // ============================================================
     // GENERAR PDF GENÉRICO
     // ============================================================
-    function generatePDF(pdfName, fields, data) {
+    async function generatePDF(pdfName, fields, data) {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ unit: "pt", format: "letter" });
 
         const margin = 72;
-        let y = margin;
+        // esperar encabezado y obtener la Y inicial
+        const headerY = await buildPDFHeader(pdf, pdfName.replace(".pdf", ""));
+        let y = headerY;
 
         pdf.setFont("Times");
 
@@ -327,12 +381,12 @@
 
         fields.forEach(f => writeParagraph(f.label, data[f.key] || ""));
 
-        // si hay integrantes, también exportarlos:
         if (data.integrantes) {
             writeParagraph("Integrantes", data.integrantes.join("\n"));
         }
 
         pdf.save(pdfName);
+        return true;
     }
 
     // ============================================================
@@ -379,7 +433,16 @@
             });
         }
 
-
+        // ============================================================
+        // NUEVO: Campos personalizados (como el de imagen)
+        // ============================================================
+        if (config.customFields) {
+            config.customFields.forEach(fn => {
+                // fn debe retornar un nodo HTML
+                const fieldEl = fn();
+                if (fieldEl) form.appendChild(fieldEl);
+            });
+        }
 
         // --- Integrantes (si aplica) ---
         if (integrantes === true) {
@@ -400,16 +463,22 @@
         pdfBtn.type = "button";
         pdfBtn.className = "btn-pdf";
         pdfBtn.textContent = "Generar PDF";
-        pdfBtn.onclick = () => {
+        pdfBtn.onclick = async () => {
             const data = saveForm(id, fields);
-            if (config.pdfCustom) {
-                config.pdfCustom(data);  // ← Ejecuta tu PDF especial
-            } else {
-                generatePDF(pdfName, fields, data); // ← Genérico
+            try {
+                if (config.pdfCustom) {
+                    // permitir pdf personalizados que devuelvan promesa o no
+                    await Promise.resolve(config.pdfCustom(data));
+                } else {
+                    await Promise.resolve(generatePDF(pdfName, fields, data));
+                }
+            } catch (err) {
+                console.error("Error generando PDF:", err);
+                alert("Ocurrió un error al generar el PDF. Revisa la consola para más detalles.");
             }
-
-
         };
+
+
         actions.appendChild(pdfBtn);
 
         form.appendChild(actions);

@@ -1,5 +1,12 @@
 const menuData = [
   {
+    id: "inicio",
+    title: "Inicio",
+    items: [
+      { id: "home", label: "Página principal" }
+    ]
+  },
+  {
     id: "equipoInfo",
     title: "Datos del equipo",
     items: [
@@ -51,10 +58,7 @@ function renderMenu() {
       sub.className = "sidebar-subitem";
       sub.textContent = item.label;
 
-      sub.addEventListener("click", () => {
-        loadForm(item.id);
-      });
-
+      sub.addEventListener("click", () => loadForm(item.id));
       subitems.appendChild(sub);
     });
 
@@ -70,87 +74,43 @@ function renderMenu() {
 }
 
 function loadForm(id) {
-  const contentId = "content-area"; // el id de tu main
+  const contentId = "content-area";
 
+  if (id === "home") {
+    return handleFormLoad("renderHome", contentId, "home");
+  }
+
+
+  // ---- FORMULARIOS DEL EQUIPO ----
   if (id === "equipo") {
-    if (window.renderForm_Equipo) {
-      window.renderForm_Equipo(contentId);
-    } else {
-      console.error("form_equipo no cargado");
-      document.getElementById(contentId).innerText = "Formulario no disponible.";
-    }
-    return;
+    return handleFormLoad("renderForm_Equipo", contentId, "form_equipo");
   }
 
-  if (id === "1_1") {
-    // si usas módulos estáticos, asegúrate de haber incluido <script src="form_1_1.js"></script>
-    if (window.renderForm1_1) {
-      window.renderForm1_1(contentId);
-    } else {
-      console.error("form_1_1 no cargado");
-      document.getElementById(contentId).innerText = "Formulario no disponible.";
-    }
-    return;
-  }
+  // ---- FORMULARIOS 1.X ----
+  if (id === "1_1") return handleFormLoad("renderForm1_1", contentId, "form_1_1");
+  if (id === "1_2") return handleFormLoad("renderForm1_2", contentId, "form_1_2");
+  if (id === "1_3") return handleFormLoad("renderForm1_3", contentId, "form_1_3");
+  if (id === "1_4") return handleFormLoad("renderForm1_4", contentId, "form_1_4");
+  if (id === "1_5") return handleFormLoad("renderForm1_5", contentId, "form_1_5");
 
-  if (id === "1_2") {
-    // si usas módulos estáticos, asegúrate de haber incluido <script src="form_1_1.js"></script>
-    if (window.renderForm1_2) {
-      window.renderForm1_2(contentId);
-    } else {
-      console.error("form_1_2 no cargado");
-      document.getElementById(contentId).innerText = "Formulario no disponible.";
-    }
-    return;
-  }
+  // ---- FORMULARIOS 2.X ----
+  if (id === "2_1") return handleFormLoad("renderForm2_1", contentId, "form_2_1");
+  if (id === "2_2") return handleFormLoad("renderForm2_2", contentId, "form_2_2");
+  if (id === "2_3") return handleFormLoad("renderForm2_3", contentId, "form_2_3");
+  if (id === "2_4") return handleFormLoad("renderForm2_4", contentId, "form_2_4");
+  if (id === "2_5") return handleFormLoad("renderForm2_5", contentId, "form_2_5");
+  if (id === "2_6") return handleFormLoad("renderForm2_6", contentId, "form_2_6");
 
-  if (id === "1_3") {
-    // si usas módulos estáticos, asegúrate de haber incluido <script src="form_1_1.js"></script>
-    if (window.renderForm1_3) {
-      window.renderForm1_3(contentId);
-    } else {
-      console.error("form_1_3 no cargado");
-      document.getElementById(contentId).innerText = "Formulario no disponible.";
-    }
-    return;
-  }
-
-  if (id === "1_4") {
-    // si usas módulos estáticos, asegúrate de haber incluido <script src="form_1_1.js"></script>
-    if (window.renderForm1_4) {
-      window.renderForm1_4(contentId);
-    } else {
-      console.error("form_1_4 no cargado");
-      document.getElementById(contentId).innerText = "Formulario no disponible.";
-    }
-    return;
-  }
-
-  if (id === "1_5") {
-    // si usas módulos estáticos, asegúrate de haber incluido <script src="form_1_1.js"></script>
-    if (window.renderForm1_5) {
-      window.renderForm1_5(contentId);
-    } else {
-      console.error("form_1_5 no cargado");
-      document.getElementById(contentId).innerText = "Formulario no disponible.";
-    }
-    return;
-  }
-
-  if (id === "2_1") {
-    // si usas módulos estáticos, asegúrate de haber incluido <script src="form_1_1.js"></script>
-    if (window.renderForm2_1) {
-      window.renderForm2_1(contentId);
-    } else {
-      console.error("form_2_1 no cargado");
-      document.getElementById(contentId).innerText = "Formulario no disponible.";
-    }
-    return;
-  }
-
-  // otros casos...
   document.getElementById(contentId).innerHTML = "<p>Formulario aún no implementado.</p>";
 }
 
+function handleFormLoad(functionName, contentId, errorName) {
+  if (window[functionName]) {
+    window[functionName](contentId);
+  } else {
+    console.error(`${errorName} no cargado`);
+    document.getElementById(contentId).innerText = "Formulario no disponible.";
+  }
+}
 
 renderMenu();

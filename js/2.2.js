@@ -1,6 +1,6 @@
 /* ============================================================
-   form_2_1.js
-   Implementación del formulario 2.1 usando formEngine.js
+   form_2_2.js
+   Implementación del formulario 2.2 usando formEngine.js
    ============================================================ */
 
 (function () {
@@ -8,78 +8,77 @@
     // ----------------------------------------------------------
     // CAMPOS DE TEXTO (se integran al motor universal)
     // ----------------------------------------------------------
-    const fields_2_1 = [
+    const fields_2_2 = [
         {
-            key: "funcion",
-            label: "Función principal del sistema",
+            key: "funcion_principal",
+            label: "Función principal del sistema técnico",
             max: 1200,
-            help: "Identifica y describe la función principal que cumple el objeto o sistema técnico (1 párrafo)."
+            help: "Identifica y describe la función principal del sistema técnico (1 párrafo)."
         },
         {
-            key: "entradas",
-            label: "Entradas al sistema",
+            key: "subfunciones",
+            label: "Subfunciones necesarias",
+            max: 1200,
+            help: "Determina las subfunciones o funciones parciales necesarias para cumplir la función principal (1 párrafo)."
+        },
+        {
+            key: "flujo",
+            label: "Flujo de energía, materia o información",
+            max: 1200,
+            help: "Analiza el flujo entre las subfunciones que integran el sistema (1 párrafo)."
+        },
+        {
+            key: "retroalimentacion",
+            label: "Procesos de retroalimentación o control",
+            max: 1200,
+            help: "Reconoce los posibles procesos de retroalimentación o control entre las funciones (1 párrafo)."
+        },
+        {
+            key: "componentes",
+            label: "Componentes o mecanismos propuestos",
+            max: 1200,
+            help: "Propón los componentes o mecanismos que podrían cumplir cada subfunción (1 párrafo)."
+        },
+        {
+            key: "interrelaciones",
+            label: "Interrelación entre funciones",
+            max: 1200,
+            help: "Explica cómo se interrelacionan las funciones dentro del sistema técnico para su funcionamiento global (1 párrafo)."
+        },
+        {
+            key: "descripcion_diagrama",
+            label: "Descripción del diagrama funcional",
             max: 1500,
-            help: "Enumera los elementos o recursos que ingresan al sistema. Es una lista."
-        },
-        {
-            key: "procesos",
-            label: "Procesos o transformaciones",
-            max: 1200,
-            help: "Explica las transformaciones que ocurren dentro del sistema (1 párrafo)."
-        },
-        {
-            key: "salidas",
-            label: "Salidas o productos",
-            max: 1200,
-            help: "Describe los resultados o productos que genera el sistema."
-        },
-        {
-            key: "limites",
-            label: "Límites del sistema",
-            max: 1200,
-            help: "Delimita los límites físicos o funcionales del sistema (1 párrafo)."
-        },
-        {
-            key: "interacciones",
-            label: "Interacciones con el entorno",
-            max: 1200,
-            help: "Analiza las interacciones entre el sistema y su contexto."
-        },
-        {
-            key: "explicacion",
-            label: "Explicación del diagrama",
-            max: 1500,
-            help: "Explica cómo el sistema responde a la necesidad identificada."
+            help: "Descripción breve que acompaña al diagrama de sistemas funcionales (1 párrafo)."
         }
     ];
 
     // ----------------------------------------------------------
     // CAMPO ESPECIAL: CARGA DE IMAGEN
-    // (Integrado al motor via config.customFields)
     // ----------------------------------------------------------
-    function createImageField_2_1() {
+    function createImageField_2_2() {
         const wrapper = document.createElement("div");
         wrapper.className = "form-field";
 
         const label = document.createElement("label");
         label.className = "field-label";
-        label.textContent = "Diagrama de caja negra (imagen)";
+        label.textContent = "Diagrama de sistemas funcionales (imagen)";
         wrapper.appendChild(label);
 
         const input = document.createElement("input");
         input.type = "file";
         input.accept = "image/*";
-        input.id = "diagram_2_1";
+        input.id = "diagram_2_2";
         input.className = "file-input";
         wrapper.appendChild(input);
 
         const preview = document.createElement("img");
-        preview.id = "diagramPreview_2_1";
+        preview.id = "diagramPreview_2_2";
         preview.className = "img-preview";
         preview.style.display = "none";
         wrapper.appendChild(preview);
 
-        // Vista previa + guardado en PROYECTO
+        // Vista previa + guardado inmediato
         input.addEventListener("change", () => {
             const file = input.files[0];
             if (!file) return;
@@ -89,14 +88,13 @@
                 preview.src = e.target.result;
                 preview.style.display = "block";
 
-                // Guardar inmediatamente
                 if (!window.PROYECTO) window.PROYECTO = {};
                 if (!window.PROYECTO.formularios) window.PROYECTO.formularios = {};
 
-                if (!window.PROYECTO.formularios["2.1"])
-                    window.PROYECTO.formularios["2.1"] = {};
+                if (!window.PROYECTO.formularios["2.2"])
+                    window.PROYECTO.formularios["2.2"] = {};
 
-                window.PROYECTO.formularios["2.1"].diagrama = e.target.result;
+                window.PROYECTO.formularios["2.2"].diagrama = e.target.result;
             };
             reader.readAsDataURL(file);
         });
@@ -108,10 +106,10 @@
     // Cargar imagen si existe
     // ----------------------------------------------------------
     function loadImageIfExists() {
-        const data = window.PROYECTO?.formularios?.["2.1"];
+        const data = window.PROYECTO?.formularios?.["2.2"];
         if (!data || !data.diagrama) return;
 
-        const preview = document.getElementById("diagramPreview_2_1");
+        const preview = document.getElementById("diagramPreview_2_2");
         if (preview) {
             preview.src = data.diagrama;
             preview.style.display = "block";
@@ -119,17 +117,16 @@
     }
 
     // ----------------------------------------------------------
-    // PDF ESPECIAL DEL FORMULARIO 2.1
+    // PDF ESPECIAL DEL FORMULARIO 2.2
     // ----------------------------------------------------------
-    function pdfCustom_2_1(data) {
+    function pdfCustom_2_2(data) {
         const { jsPDF } = window.jspdf;
 
         const pdf = new jsPDF({ unit: "pt", format: "letter" });
         const margin = 72;
         let y = margin;
 
-        // --- INSERTAR ENCABEZADO ---
-        buildPDFHeader(pdf, "Plan de Trabajo (2.1)").then(headerY => {
+        buildPDFHeader(pdf, "Descomposición funcional del sistema (2.2)").then(headerY => {
 
             y = headerY;
 
@@ -160,26 +157,26 @@
             }
 
             // ---- CONTENIDO ----
-            writeParagraph("Función principal del sistema", data.funcion || "");
-            writeParagraph("Entradas al sistema", data.entradas || "");
-            writeParagraph("Procesos o transformaciones", data.procesos || "");
-            writeParagraph("Salidas o productos", data.salidas || "");
-            writeParagraph("Límites del sistema", data.limites || "");
-            writeParagraph("Interacciones con el entorno", data.interacciones || "");
-            writeParagraph("Explicación del diagrama", data.explicacion || "");
+            writeParagraph("Función principal del sistema técnico", data.funcion_principal || "");
+            writeParagraph("Subfunciones necesarias", data.subfunciones || "");
+            writeParagraph("Flujo entre subfunciones", data.flujo || "");
+            writeParagraph("Retroalimentación o control", data.retroalimentacion || "");
+            writeParagraph("Componentes o mecanismos propuestos", data.componentes || "");
+            writeParagraph("Interrelación entre funciones", data.interrelaciones || "");
+            writeParagraph("Descripción del diagrama funcional", data.descripcion_diagrama || "");
 
-            // Imagen si existe
+            // Imagen
             if (data.diagrama) {
                 try {
                     pdf.addPage();
                     pdf.setFont("Times", "bold");
                     pdf.setFontSize(14);
-                    pdf.text("Diagrama de caja negra", margin, margin);
+                    pdf.text("Diagrama de sistemas funcionales", margin, margin);
 
                     const format = data.diagrama.startsWith("data:image/png") ? "PNG" :
-                        data.diagrama.startsWith("data:image/jpeg") ? "JPEG" :
-                            data.diagrama.startsWith("data:image/webp") ? "WEBP" :
-                                "PNG"; // fallback
+                                   data.diagrama.startsWith("data:image/jpeg") ? "JPEG" :
+                                   data.diagrama.startsWith("data:image/webp") ? "WEBP" :
+                                   "PNG";
 
                     pdf.addImage(data.diagrama, format, margin, margin + 20, 400, 300);
 
@@ -188,30 +185,28 @@
                 }
             }
 
-            pdf.save("formulario_2_1.pdf");
+            pdf.save("formulario_2_2.pdf");
 
-        }); // ← cierre del .then correctamente colocado
+        });
     }
 
-
     // ----------------------------------------------------------
-    // RENDERIZADOR PÚBLICO USANDO EL MOTOR UNIVERSAL
+    // RENDERIZADOR PÚBLICO
     // ----------------------------------------------------------
-    window.renderForm2_1 = function (containerId) {
+    window.renderForm2_2 = function (containerId) {
 
         renderForm({
-            id: "2.1",
+            id: "2.2",
             containerId,
-            title: "2.1 Diagrama de caja negra",
+            title: "2.2 Descomposición funcional del sistema",
             intro:
-                "Completa cada apartado según las instrucciones. Incluye también el diagrama como imagen.",
-            fields: fields_2_1,
-            pdfName: "formulario_2_1.pdf",
-            pdfCustom: pdfCustom_2_1,
+                "Completa cada apartado según las instrucciones. Incluye también el diagrama funcional.",
+            fields: fields_2_2,
+            pdfName: "formulario_2_2.pdf",
+            pdfCustom: pdfCustom_2_2,
 
-            // Añadir campo especial
             customFields: [
-                createImageField_2_1
+                createImageField_2_2
             ]
         });
 
